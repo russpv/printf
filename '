@@ -9,20 +9,13 @@
 // Temp includes
 #include <stdio.h>
 
-# define FLAGS "#-+0 "
+# define FLAGS "#-+0 ."
 # define SUCCESS 0
 # define FAILURE -1
 # define TRUE 1
 # define FALSE 0
 
-typedef enum {
-	INT,
-	UINT,
-	PTR,
-	STR
-}	e_types;
-
-typedef struct s_spec {
+struct s_spec {
 	int	ljust;
 	int	sign;
 	char	padchar;
@@ -31,7 +24,8 @@ typedef struct s_spec {
 	char	type;
 	int	minwidth;
 	int	minprec;
-}	t_spec;
+	int	res;
+}
 
 int	ft_printf(const char *, ...);
 

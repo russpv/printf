@@ -1,7 +1,9 @@
 NAME = libftprintf.a
-SOURCES = ft_printf.c
+
+SOURCES = draft.c
 
 BSOURCES =	ft_printf_bonus.c\
+
 
 YELLOW = \033[33m
 GREEN = \033[32m
@@ -11,51 +13,77 @@ BOLD = \033[1m
 OBJECTS = $(SOURCES:.c=.o)
 BOBJECTS = $(BSOURCES:.c=.o)
 
-AR = ar
+AR = ar -rvcs
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
-LIB = ranlib
+RM = rm -f
+CFLAGS = -Wall -Wextra -Werror -I./$(LIBFT_DIR)
+LIBFT_DIR = ./libft/
+LIBFT_AR = $(addprefix $(LIBFT_DIR), libft.a)
 
+# Targets
 all: $(NAME)
 
-$(NAME): $(OBJECTS)
-	@echo "Creating $(NAME) archive..."
-	$(AR) -rvcs $@ $?  # ar update, create, update index
-	$(LIB) $(NAME)
-	@echo "$(GREEN)$(BOLD)SUCCESS$(RESET)"
-	@echo "$(YELLOW)Created: $(words $(OBJECTS) ) object file(s)$(RESET)"
-	@echo "$(YELLOW)Created: $(NAME)$(RESET)"
+%.o: %.c
+	$(CC) -c $(CFLAGS) $< -o $@ 
 
+$(LIBFT_AR):
+	@make -C $(LIBFT_DIR)
+
+$(NAME): $(LIBFT_AR) $(OBJECTS)
+	@echo "Creating $(NAME) archive..."
+	@if ! cp $(LIBFT_AR) $(NAME) >> error.txt 2>&1; then \
+		echo "$(RED)$(BOLD)MAKEFILE TERMINATED!$(RESET)"; \
+		echo "$(YELLOW)Error copying $(LIBFT_AR) to $(NAME)$(RESET)"; \
+		echo "\n\n$(RED)$(BOLD)ERROR$(RESET)"; \
+		sed '$$d' error.txt; \
+		echo "\n\n$(YELLOW)EXITING$(RESET)"; \
+		exit 1; \
+	fi
+	@if ! $(AR) $@ $^ >> error.txt 2>&1; then \
+		echo "$(RED)$(BOLD)MAKEFILE TERMINATED!$(RESET)"; \
+		echo "$(YELLOW)Error creating $(NAME)$(RESET)"; \
+		echo "\n\n$(RED)$(BOLD)ERROR$(RESET)"; \
+		sed '$$d' error.txt; \
+		echo "\n\n$(YELLOW)EXITING$(RESET)"; \
+		exit 1; \
+	fi
+	@ranlib $@
+	@echo "$(GREEN)$(BOLD)SUCCESS$(RESET)"
+	@echo "$(YELLOW)Created: $(words $(OBJECTS) $(LIBFT_AR)) object file(s)$(RESET)"
+	@echo "$(YELLOW)Created: $(NAME)$(RESET)"
+	
 bonus: .bonus_made
 
 .bonus_made: $(OBJECTS) $(BOBJECTS)
-	@echo "Creating $(NAME) archive..."
-	$(AR) -rvcs $(NAME) $?
+	@echo "Creating $(NAME) archive (with bonus)..."
+	$(AR) $(NAME) $?
 	-@touch .bonus_made
 	@echo "$(GREEN)$(BOLD)SUCCESS$(RESET)"
 	@echo "$(YELLOW)Created: $(words $(OBJECTS) $(BOBJECTS)) object file(s)$(RESET)"
 	@echo "$(YELLOW)Created: $(NAME)$(RESET)"
 
-%.o: %.c
-	$(CC) -c $(CFLAGS) $? #Initial compilation of .c files
-
 clean:
-	rm -f $(OBJECTS) $(BOBJECTS) 
-	-@rm -f .bonus_made
-	@echo "$(GREEN)$(BOLD)SUCCESS$(RESET)"
-	@echo "$(YELLOW) Deleted: $(words $(OBJECTS) $(BOBJECTS) $(EOBJECTS)) object file(s)$(RESET)"
+	@make -s fclean -C $(LIBFT_DIR)
+	-@$(RM) .bonus_made error.txt # dash to suppress error msgs
+	@if [ -n "$$(ls -A $(OBJECTS) $(BOBJECTS) 2>/dev/null)" ]; then \
+		$(RM) $(OBJECTS) $(BOBJECTS); \
+		echo "$(GREEN)$(BOLD)SUCCESS$(RESET)"; \
+		echo "$(YELLOW) Deleted: $(words $(OBJECTS) $(BOBJECTS)) object file(s)$(RESET)"; \
+	fi
 
 fclean: clean
-	rm -f $(NAME)
-	@echo "$(GREEN)SUCCESS$(RESET)"
-	@echo "$(YELLOW) Deleted $(words $(NAME)) object files(s)$(RESET)"
-	@echo "$(YELLOW) Deleted: $(NAME)"
+	@if [ -n "$$(ls -A $(NAME) $(LIBFT_AR) 2>/dev/null)" ]; then \
+		$(RM) $(NAME) $(LIBFT_AR); \
+		echo "$(GREEN)SUCCESS$(RESET)"; \
+		echo "$(YELLOW) Deleted: $(NAME) and $(LIBFT_AR)$(RESET)"; \
+	fi
 
 re: fclean all
 
 so:
 	$(CC) -fPIC $(CFLAGS) -c $(SOURCES) $(BSOURCES)
-	$(CC) -nostartfiles -shared -o libft.so $(OBJECTS) $(BOBJECTS)
-
+	$(CC) -nostartfiles -shared -o libftprintf.so $(OBJECTS) $(BOBJECTS)
+	@echo "$(GREEN)$(BOLD)SUCCESS$(RESET)"
+	@echo "$(YELLOW)Created: libftprintf.so$(RESET)"
 
 .PHONY: all bonus clean fclean re so

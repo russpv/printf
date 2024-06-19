@@ -6,7 +6,7 @@
 /*   By: rpeavey <rpeavey@student.42singapore.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 20:18:27 by rpeavey           #+#    #+#             */
-/*   Updated: 2024/05/31 21:39:18 by rpeavey          ###   ########.fr       */
+/*   Updated: 2024/06/19 20:29:49 by rpeavey          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int					ft_strcmp(const char *s1, const char *s2);
 void				ft_putchar(unsigned int c);
 void				ft_putstr(char const *s);
 void				ft_putendl(char const *s);
-void				ft_putnbr(int n);
+void				ft_putnbr(long n);
 void				*ft_print_memory(void *addr, unsigned int size);
 
 void				ft_putchar_fd(char c, int fd);
@@ -141,7 +141,7 @@ t_bool				ft_isspace(int c);
 */
 
 int					ft_atoi(const char *str);
-char				*ft_itoa(int n);
+char				*ft_itoa(long long n);
 
 /*
 ** List manipulation

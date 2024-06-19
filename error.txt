@@ -1,0 +1,4 @@
+a - libft/libft.a
+a - draft.o
+a - libft/libft.a
+a - draft.o
