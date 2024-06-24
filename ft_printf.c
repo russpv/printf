@@ -4,7 +4,6 @@
  * cspdiuxX% flags handled
  */
 
-
 /* Creates padding strings */
 static inline char	*_repeat(size_t len, char ch)
 {
@@ -244,13 +243,20 @@ static int	_parse_specs(const char **s, t_spec *specs)
 	return (TRUE);
 }
 
+static void	_do_flags(const char *s, va_list args, t_spec *specs)
+{
+	_do_idu_flags(s, args, specs);
+	_do_cs_flags(s, args, specs);
+	_do_xx_flags(s, args, specs);
+	_do_pc(s);
+}
+
 int	ft_printf(const char *s, ...)
 {
 	va_list		args;
 	t_spec		specs;
-	const char	*start;
+	const char	*start = s;
 
-	start = NULL;
 	va_start(args, s);
 	while (*s)
 	{
@@ -260,7 +266,6 @@ int	ft_printf(const char *s, ...)
 		{
 			_init_specs(&specs);
 			s++;
-			start = s;
 			if (is_flag(s) == TRUE || ft_isdigit(*s) || *s == '.')
 			{
 				if (_parse_specs(&s, &specs) == FALSE)
@@ -269,13 +274,10 @@ int	ft_printf(const char *s, ...)
 					continue ;
 				}
 			}
-			_do_idu_flags(s, args, &specs);
-			_do_cs_flags(s, args, &specs);
-			_do_xx_flags(s, args, &specs);
-			_do_pc(s);
+			_do_flags(s, args, &specs);
 		}
 		s++;
 	}
 	va_end(args);
 	return (SUCCESS);
-}
+} 

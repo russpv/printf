@@ -29,7 +29,7 @@ void	_init_specs(t_spec *specs)
 	specs->pch = ' ';
 }
 
-void	_printoutput(const char *res)
+void	_printoutput(void *res)
 {
 	if (!res)
 		ft_putstr("(null)");

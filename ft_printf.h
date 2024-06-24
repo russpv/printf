@@ -83,11 +83,12 @@ typedef unsigned long	long(t_uintptr_t);
 # define ULSZ 4
 
 int						ft_printf(const char *s, ...);
+char					*_myf(void *val, t_types typ, t_spec *specs);
 
 /* Utils */
 int						is_flag(const char *s);
 void					_init_specs(t_spec *specs);
-void					_printoutput(const char *res);
+void					_printoutput(void *res);
 char					*_toupper(char *s);
 
 /* Type handlers */

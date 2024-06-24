@@ -1,6 +1,5 @@
 #include "ft_printf.h"
 
-
 /* Defeat any invalid input based on type rules */
 static void	_reset_specs(t_spec *specs, t_types type)
 {
@@ -21,7 +20,7 @@ static void	_reset_specs(t_spec *specs, t_types type)
 	{
 		specs->pch = ' ';
 		specs->lchar = "";
-		specs->signflag = 0;
+		specs->signflag = FALSE;
 		specs->minprecflag = FALSE;
 	}
 }
