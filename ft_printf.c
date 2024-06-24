@@ -4,19 +4,8 @@
  * cspdiuxX% flags handled
  */
 
-static inline char	*_toupper(char *s)
-{
-	char	*tmp;
 
-	tmp = s;
-	while (*tmp)
-	{
-		*tmp = ft_toupper(*tmp);
-		tmp++;
-	}
-	return (s);
-}
-
+/* Creates padding strings */
 static inline char	*_repeat(size_t len, char ch)
 {
 	char	*new;
@@ -29,8 +18,7 @@ static inline char	*_repeat(size_t len, char ch)
 	return (new);
 }
 
-/* Main switch to handle numerical types
- **/
+/* Adjusts string for flag input */
 char	*_myf(void *val, t_types typ, t_spec *specs)
 {
 	char		*res;
@@ -199,170 +187,6 @@ char	*_myf(void *val, t_types typ, t_spec *specs)
 		return (res);
 	}
 	return (NULL);
-}
-
-/* Defeat any invalid input based on type rules */
-static void	_reset_specs(t_spec *specs, t_types type)
-{
-	if (type == UINT)
-	{
-		specs->signflag = FALSE;
-		specs->lchar = "";
-	}
-	else if (type == PTR)
-	{
-		specs->signflag = FALSE;
-		specs->lchar = "";
-	}
-	else if (type == INT)
-	{
-		specs->schar = "+";
-	}
-	else if (type == STR)
-	{
-		specs->pch = ' ';
-		specs->lchar = "";
-		specs->signflag = 0;
-	}
-	else if (type == HEX)
-	{
-		specs->signflag = FALSE;
-		specs->lchar = "";
-	}
-	else if (type == CHR)
-	{
-		specs->pch = ' ';
-		specs->lchar = "";
-		specs->signflag = 0;
-		specs->minprecflag = FALSE;
-	}
-}
-
-void	_do_idu_flags(const char *s, va_list args, t_spec *specs)
-{
-	int				value;
-	unsigned int	uvalue;
-	unsigned long	ptr;
-	char			*res;
-
-	res = NULL;
-	if (*s != 'i' && *s != 'd' && *s != 'u' && *s != 'p')
-		return ;
-	if (*s == 'i' || *s == 'd')
-	{
-		value = va_arg(args, int);
-		_reset_specs(specs, INT);
-		res = _myf(&value, INT, specs);
-	}
-	if (*s == 'u')
-	{
-		uvalue = va_arg(args, unsigned int);
-		_reset_specs(specs, UINT);
-		res = _myf(&uvalue, UINT, specs);
-	}
-	if (*s == 'p')
-	{
-		ptr = (unsigned long)va_arg(args, void *);
-		_reset_specs(specs, PTR);
-		res = _myf(&ptr, PTR, specs);
-	}
-	if (res == NULL)
-		res = "(null)";
-	ft_putstr(res);
-	free(res);
-	res = NULL;
-}
-
-void	_do_cs_flags(const char *s, va_list args, t_spec *specs)
-{
-	char	*string;
-	char	*res;
-	char	c;
-
-	res = NULL;
-	if (*s != 'c' && *s != 's')
-		return ;
-	if (*s == 'c')
-	{
-		c = (char)va_arg(args, int);
-		_reset_specs(specs, CHR);
-		res = _myf(&c, CHR, specs);
-	}
-	if (*s == 's')
-	{
-		string = va_arg(args, char *);
-		_reset_specs(specs, STR);
-		res = _myf(string, STR, specs);
-	}
-	if (res == NULL)
-		ft_putstr("(null)");
-	else
-	{
-		ft_putstr(res);
-		free(res);
-		res = NULL;
-	}
-}
-
-void	_do_xx_flags(const char *s, va_list args, t_spec *specs)
-{
-	unsigned int	num;
-	char			*res;
-
-	num = 0;
-	res = NULL;
-	if (*s != 'X' && *s != 'x')
-		return ;
-	num = va_arg(args, unsigned int);
-	_reset_specs(specs, HEX);
-	res = _myf(&num, HEX, specs);
-	if (res == NULL)
-	{
-		res = "(null)";
-		ft_putstr(res);
-		return ;
-	}
-	else if (*s == 'X')
-		res = _toupper(res);
-	ft_putstr(res);
-	free(res);
-	res = NULL;
-}
-
-void	_do_pc(const char *s)
-{
-	if (*s == '%')
-		ft_putchar('%');
-	return ;
-}
-
-/* Checks for prefix flags only
- * If char matches in any of set.
- */
-int	is_flag(const char *s)
-{
-	const char	*set = FLAGS;
-
-	if (!*s)
-		return (FALSE);
-	while (*set)
-		if (*s == *set++)
-			return (TRUE);
-	return (FALSE);
-}
-
-static void	_init_specs(t_spec *specs)
-{
-	specs->minwidth = 0;
-	specs->minprec = 0;
-	specs->ljustflag = FALSE;
-	specs->leadcharflag = FALSE;
-	specs->minprecflag = FALSE;
-	specs->signflag = FALSE;
-	specs->schar = "";
-	specs->altflag = FALSE;
-	specs->lchar = "";
-	specs->pch = ' ';
 }
 
 /* Stuff after '.' */

@@ -83,6 +83,23 @@ typedef unsigned long	long(t_uintptr_t);
 # define ULSZ 4
 
 int						ft_printf(const char *s, ...);
+
+/* Utils */
+int						is_flag(const char *s);
+void					_init_specs(t_spec *specs);
+void					_printoutput(const char *res);
+char					*_toupper(char *s);
+
+/* Type handlers */
+void					_do_idu_flags(const char *s, va_list args,
+							t_spec *specs);
+void					_do_cs_flags(const char *s, va_list args,
+							t_spec *specs);
+void					_do_xx_flags(const char *s, va_list args,
+							t_spec *specs);
+void					_do_pc(const char *s);
+
+/* libft */
 void					ft_putnbr(long n);
 void					ft_putchar(unsigned int c);
 void					ft_putstr(char const *s);
@@ -99,4 +116,4 @@ void					*ft_memset(void *str, int c, size_t n);
 void					*ft_memcpy(void *dest, const void *src, size_t n);
 int						ft_strncmp(const char *s1, const char *s2, size_t n);
 
-#endif 
+#endif
