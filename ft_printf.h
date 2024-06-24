@@ -1,5 +1,5 @@
-#ifndef FT_PRINTF_H_
-# define FT_PRINTF_H_
+#ifndef FT_PRINTF_H
+# define FT_PRINTF_H
 
 # include <stdarg.h>
 # include <stdlib.h>
@@ -14,7 +14,7 @@
 # define TRUE 1
 # define FALSE 0
 
-typedef enum
+typedef enum e_types
 {
 	INT,
 	UINT,
@@ -22,7 +22,7 @@ typedef enum
 	STR,
 	HEX,
 	CHR
-}						e_types;
+}						t_types;
 
 typedef struct s_spec
 {
@@ -81,8 +81,8 @@ typedef unsigned long	long(t_uintptr_t);
 /* 8-byte ptr */
 # define PTRSZ 8
 # define ULSZ 4
-int						ft_printf(const char *, ...);
 
+int						ft_printf(const char *s, ...);
 void					ft_putnbr(long n);
 void					ft_putchar(unsigned int c);
 void					ft_putstr(char const *s);
@@ -99,4 +99,4 @@ void					*ft_memset(void *str, int c, size_t n);
 void					*ft_memcpy(void *dest, const void *src, size_t n);
 int						ft_strncmp(const char *s1, const char *s2, size_t n);
 
-#endif
+#endif 

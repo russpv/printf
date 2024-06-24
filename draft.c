@@ -1,13 +1,12 @@
 #include "ft_printf.h"
 
-
 /* PRINTF
  * cspdiuxX% flags handled
  */
 
 static inline char	*_toupper(char *s)
 {
-	char *tmp;
+	char	*tmp;
 
 	tmp = s;
 	while (*tmp)
@@ -19,7 +18,8 @@ static inline char	*_toupper(char *s)
 }
 static inline char	*_repeat(size_t len, char ch)
 {
-	char *new;
+	char	*new;
+
 	new = malloc(sizeof(char) * (len + 1));
 	if (!new)
 		return (NULL);
@@ -28,41 +28,41 @@ static inline char	*_repeat(size_t len, char ch)
 	return (new);
 }
 
-/* Main switch to handle numerical types 
+/* Main switch to handle numerical types
  **/
-char	*_myf(void *val, e_types typ, t_spec *specs)
+char	*_myf(void *val, t_types typ, t_spec *specs)
 {
-	char *res = NULL;
-	char *res2 = NULL;
-	long long value = 0;
-	char *tmp;
+	char		*res;
+	char		*res2;
+	long long	value;
+	char		*tmp;
 
+	res = NULL;
+	res2 = NULL;
+	value = 0;
 	if (typ == INT)
 	{
-		value = *(int*)val;
+		value = *(int *)val;
 		if (value < 0) /* have to print "-" and ignore lchar */
 		{
-			specs->schar = "-";	
+			specs->schar = "-";
 			specs->signflag = TRUE; /* defeat sign ("+") for leadpadchar */
 			value *= -1;
 		}
-//		else if (specs->signflag == TRUE)
-//			specs->schar = "+"; /* don't know what leading char is yet */
 		res = ft_itoa_base(value, 10);
 		if (!res)
 			return (NULL);
-//		printf("MYF: base done (%s)\n:", res);
 	}
 	if (typ == HEX)
 	{
-		value = *(unsigned int*)val;
+		value = *(unsigned int *)val;
 		res = ft_itoa_base(value, 16);
 		if (!res)
 			return (NULL);
 	}
 	if (typ == UINT) /* no flags valid */
 	{
-		value = *(unsigned int*)val;
+		value = *(unsigned int *)val;
 		res = ft_itoa(value);
 		if (!res)
 			return (NULL);
@@ -74,12 +74,12 @@ char	*_myf(void *val, e_types typ, t_spec *specs)
 		if (!res)
 			return (NULL);
 		res2 = ft_strjoin("0x", res);
-		free (res);
+		free(res);
 		if (!res2)
 			return (NULL);
 		if (ft_strncmp(res2, "0x0", ft_strlen(res2)) == 0)
 		{
-			free (res2);
+			free(res2);
 			res2 = ft_strjoin("(nil)", "");
 		}
 		res = res2;
@@ -89,7 +89,8 @@ char	*_myf(void *val, e_types typ, t_spec *specs)
 		res = (char *)val;
 		if (!res && (specs->minprecflag == TRUE && specs->minprec < 6))
 			res = ft_substr("", 0, 0);
-		else if (!res && (specs->minwidthflag || (specs->minprecflag == TRUE && specs->minprec >= 6)))
+		else if (!res && (specs->minwidthflag || (specs->minprecflag == TRUE
+					&& specs->minprec >= 6)))
 			res = ft_substr("(null)", 0, 6);
 		else if (res)
 		{
@@ -100,98 +101,95 @@ char	*_myf(void *val, e_types typ, t_spec *specs)
 		specs->len = ft_strlen(res);
 		if (typ == CHR && specs->len == 0)
 			specs->len = 1;
-//		printf("MYF: l(%zu) p(%zu) pf(%d) w(%zu)\n", specs->len, specs->minprec, specs->minprecflag,\
-//				specs->minwidth); fflush(stdout);
-		if (specs->minprecflag && specs->minprec < specs->len) /* do truncation */
+		if (specs->minprecflag && specs->minprec < specs->len)
+			/* do truncation */
 		{
-//			printf("MYF: truncating (%zu)\n", specs->len); fflush(stdout);
 			tmp = ft_substr(res, 0, specs->minprec);
 			specs->len = ft_strlen(tmp);
-			free (res);
+			free(res);
 			res = tmp;
 		}
-		if (specs->minwidthflag  && specs->minwidth > specs->len) /* minwidth */
+		if (specs->minwidthflag && specs->minwidth > specs->len) /* minwidth */
 		{
 			tmp = _repeat(specs->minwidth - specs->len, specs->pch);
 			if (specs->ljustflag == TRUE)
 				res2 = ft_strjoin(res, tmp);
 			else
 				res2 = ft_strjoin(tmp, res);
-//			printf("MYF: widthing (%s)\n", res2); fflush(stdout);
-			free (tmp);
-			free (res);
-//			printf("haah\n"); fflush(stdout);
+			free(tmp);
+			free(res);
 			res = res2;
 		}
-//		printf("MYF: exiting..\n"); fflush(stdout);
 		return (res);
 	}
-	if (typ == UINT || typ == INT || typ == HEX || typ == PTR) /* res is populated */
+	if (typ == UINT || typ == INT || typ == HEX || typ == PTR)
+		/* res is populated */
 	{
 		/* Do precision padding for nums. Truncation for str.*/
 		if (specs->minprecflag)
-		{ 	
-			if (specs->minprec == 0 && (ft_strncmp(res, "0", 1) == 0)) /*zero invis if 0 prec */
-				res = ft_strjoin("", ""); /* truncation */
-			if (ft_strlen(res) < specs->minprec) /* leading zeros */
+		{
+			if (specs->minprec == 0 && (ft_strncmp(res, "0", 1) == 0))
+				/*zero invis if 0 prec */
+				res = ft_strjoin("", "");                             
+					/* truncation */
+			if (ft_strlen(res) < specs->minprec)                      
+				/* leading zeros */
 			{
-				tmp = _repeat(specs->minprec - ft_strlen(res), '0'); 
+				tmp = _repeat(specs->minprec - ft_strlen(res), '0');
 				if (!tmp)
 					return (NULL);
 				res2 = ft_strjoin(tmp, res);
 				if (!res2)
 					return (NULL);
-//				printf("MYF: precision done (%s)\n", res2); fflush(stdout);
-				free (res);
-				free (tmp);
+				//				printf("MYF: precision done (%s)\n", res2); fflush(stdout);
+				free(res);
+				free(tmp);
 				tmp = NULL;
 				res = res2;
 			}
-		}	
-		specs->len = ft_strlen(res) \
-					 + specs->leadcharflag * ft_strlen(specs->lchar) \
-					 + specs->signflag * ft_strlen(specs->schar);
+		}
+		specs->len = ft_strlen(res) + specs->leadcharflag
+			* ft_strlen(specs->lchar) + specs->signflag
+			* ft_strlen(specs->schar);
 		/* Do sign */
 		if (specs->signflag && (specs->minprec || specs->pch != '0'))
 		{
 			specs->signflag = FALSE;
 			res2 = ft_strjoin(specs->schar, res);
-			free (res);
+			free(res);
 			res = NULL;
 			if (!res2)
 				return (NULL);
 			res = res2;
 		}
-//		printf("MYF: mw(%zu) l(%zu) mp(%zu) mpf(%d) lch(%s) lcf(%d) sch(%s) scf(%d) -(%d)", \
-//				specs->minwidth, specs->len, specs->minprec, specs->minprecflag, specs->lchar, \
-//				specs->leadcharflag, specs->schar, specs->signflag, specs->ljustflag); fflush(stdout);
 		if (specs->minwidth > specs->len) /* Do minwidth padding */
 		{
-			if (specs->ljustflag == TRUE) {
+			if (specs->ljustflag == TRUE)
+			{
 				specs->postlen = specs->minwidth - specs->len;
 				tmp = _repeat(specs->postlen, specs->pch);
 				res2 = ft_strjoin(res, tmp);
-			} else {
+			}
+			else
+			{
 				specs->prelen = specs->minwidth - specs->len;
 				tmp = _repeat(specs->prelen, specs->pch);
-//				printf("MYF: prepad (%s) l(%s)\n", tmp, specs->schar); fflush(stdout);
 				res2 = ft_strjoin(tmp, res);
 			}
-			free (res);
+			free(res);
 			res = NULL;
 			if (!tmp)
 				return (NULL);
-			free (tmp);
+			free(tmp);
 			tmp = NULL;
 			if (!res2)
 				return (NULL);
 			res = res2;
 		}
-//		printf("MYF: done minwidth (%s)\n", res);
 		if (specs->leadcharflag)
 		{
 			res2 = ft_strjoin(specs->lchar, res); /* Do leadchar */
-			free (res);
+			free(res);
 			if (!res2)
 				return (NULL);
 			res = res2;
@@ -199,22 +197,19 @@ char	*_myf(void *val, e_types typ, t_spec *specs)
 		if (specs->signflag && !specs->minprec)
 		{
 			res2 = ft_strjoin(specs->schar, res);
-			free (res);
+			free(res);
 			res = NULL;
 			if (!res2)
 				return (NULL);
 			res = res2;
 		}
-//		printf("MYF: leadchar done (%s)\n", res2); fflush(stdout);
-//		printf("MYF: w(%zu) p(%zu)\n", specs->minwidth, specs->minprec);
-		return(res);
-
+		return (res);
 	}
 	return (NULL);
 }
 
 /* Defeat any invalid input based on type rules */
-static void	_reset_specs(t_spec *specs, e_types type)
+static void	_reset_specs(t_spec *specs, t_types type)
 {
 	if (type == UINT)
 	{
@@ -248,15 +243,15 @@ static void	_reset_specs(t_spec *specs, e_types type)
 		specs->signflag = 0;
 		specs->minprecflag = FALSE;
 	}
-
 }
 void	_do_idu_flags(const char *s, va_list args, t_spec *specs)
 {
-	int value;
-	unsigned int uvalue;
-	unsigned long ptr;
-	char *res = NULL;
+	int				value;
+	unsigned int	uvalue;
+	unsigned long	ptr;
+	char			*res;
 
+	res = NULL;
 	if (*s != 'i' && *s != 'd' && *s != 'u' && *s != 'p')
 		return ;
 	if (*s == 'i' || *s == 'd')
@@ -280,21 +275,22 @@ void	_do_idu_flags(const char *s, va_list args, t_spec *specs)
 	if (res == NULL)
 		res = "(null)";
 	ft_putstr(res);
-//	printf("|"); fflush(stdout);
 	free(res);
 	res = NULL;
 }
 
 void	_do_cs_flags(const char *s, va_list args, t_spec *specs)
 {
-	char *string;
-	char *res = NULL;
+	char	*string;
+	char	*res;
+	char	c;
 
+	res = NULL;
 	if (*s != 'c' && *s != 's')
 		return ;
 	if (*s == 'c')
 	{
-		char c = (char)va_arg(args, int);
+		c = (char)va_arg(args, int);
 		_reset_specs(specs, CHR);
 		res = _myf(&c, CHR, specs);
 	}
@@ -307,29 +303,20 @@ void	_do_cs_flags(const char *s, va_list args, t_spec *specs)
 	if (res == NULL)
 		ft_putstr("(null)");
 	else
-	{	
+	{
 		ft_putstr(res);
-		free (res); res = NULL;
+		free(res);
+		res = NULL;
 	}
-	
-}
-/* Prints the address of the object pointed to */
-void	_do_p_flag(const char *s, va_list args, t_spec *specs)
-{
-	void *p;
-
-	(void)specs;
-	if (*s != 'p')
-		return ;
-	p = va_arg(args, void *);
-	ft_putnbr((unsigned long long)p);
 }
 
 void	_do_xX_flags(const char *s, va_list args, t_spec *specs)
 {
-	unsigned int num = 0;
-	char *res = NULL;
-	
+	unsigned int	num;
+	char			*res;
+
+	num = 0;
+	res = NULL;
 	if (*s != 'X' && *s != 'x')
 		return ;
 	num = va_arg(args, unsigned int);
@@ -344,7 +331,7 @@ void	_do_xX_flags(const char *s, va_list args, t_spec *specs)
 	else if (*s == 'X')
 		res = _toupper(res);
 	ft_putstr(res);
-	free (res);
+	free(res);
 	res = NULL;
 }
 
@@ -355,12 +342,12 @@ void	_do_pc(const char *s)
 	return ;
 }
 
-/* Checks for prefix flags only 
+/* Checks for prefix flags only
  * If char matches in any of set.
  */
 int	is_flag(const char *s)
 {
-	const char *set = FLAGS;
+	const char	*set = FLAGS;
 
 	if (!*s)
 		return (FALSE);
@@ -369,18 +356,6 @@ int	is_flag(const char *s)
 			return (TRUE);
 	return (FALSE);
 }
-/*
-static int	_skip(const char **s)
-{
-	unsigned int ch;
-
-	ch = **s;
-	if (ch == '.' && (unsigned int)*(++(*s)) == ch)
-		return (FALSE);
-	while ((unsigned int)**s == ch)
-		(*s)++;
-	return (TRUE);
-}*/
 
 static void	_init_specs(t_spec *specs)
 {
@@ -399,21 +374,21 @@ static void	_init_specs(t_spec *specs)
 /* Stuff after '.' */
 static int	_parse_qty(const char **s, size_t *var, int check, int *flag)
 {
-	unsigned int qty;
+	unsigned int	qty;
 
 	qty = 0;
-	if (check == TRUE) {
+	if (check == TRUE)
+	{
 		*flag = TRUE; /* blank okay */
-		if (*(++(*s)) == '.') {
-		//	printf("PQ: dual periods."); fflush(stdout);
-				return (FALSE);
-		}
-		}
-	while (ft_isdigit(**s)) {
+		if (*(++(*s)) == '.')
+			return (FALSE);
+	}
+	while (ft_isdigit(**s))
+	{
 		*flag = TRUE;
 		qty = qty * 10 + (**s - '0');
-   		(*s)++;
-	}	/* double check the operator prec */
+		(*s)++;
+	} /* double check the operator prec */
 	*var = qty;
 	return (TRUE);
 }
@@ -425,14 +400,16 @@ static int	_parse_specs(const char **s, t_spec *specs)
 	{
 		if (**s == '-')
 			specs->ljustflag = TRUE;
-		if (**s == '+') 
+		if (**s == '+')
 			specs->signflag = TRUE;
-		if (**s == ' ' && specs->signflag == FALSE) /* ' ' or sign when no widths */
+		if (**s == ' ' && specs->signflag == FALSE)
+			/* ' ' or sign when no widths */
 			specs->lchar = " ";
-		if (**s == '0' && specs->ljustflag == FALSE) /* '0' only w/in prec, then minwidth */
-			specs->pch = '0'; /* if prec, ignored */
-		if (**s == '#') /* repeats okay */
-			specs->altflag = TRUE; 
+		if (**s == '0' && specs->ljustflag == FALSE) /* '0' only w/in prec,
+			then minwidth */
+			specs->pch = '0';                        /* if prec, ignored */
+		if (**s == '#')                              /* repeats okay */
+			specs->altflag = TRUE;
 		(*s)++;
 	}
 	if (ft_isdigit(**s))
@@ -441,22 +418,21 @@ static int	_parse_specs(const char **s, t_spec *specs)
 	}
 	if (**s == '.') /* NOK */
 	{
-		if (_parse_qty(s, &specs->minprec, TRUE, &specs->minprecflag) == FALSE){
-//			printf("minprec invalid..."); fflush(stdout);
+		if (_parse_qty(s, &specs->minprec, TRUE, &specs->minprecflag) == FALSE)
+		{
 			return (FALSE);
 		}
 		if (specs->minprecflag == TRUE) /* reset pch. lchar can remain " " */
 			specs->pch = ' ';
 	}
-//	printf("PS: exit (%zu) (%zu)\n", specs->minwidth, specs->minprec); fflush(stdout);
 	return (TRUE);
 }
 
 int	ft_printf(const char *s, ...)
 {
-	va_list	args;
-	t_spec specs;
-	const char *start;
+	va_list		args;
+	t_spec		specs;
+	const char	*start;
 
 	start = NULL;
 	va_start(args, s);
@@ -471,16 +447,15 @@ int	ft_printf(const char *s, ...)
 			start = s;
 			if (is_flag(s) == TRUE || ft_isdigit(*s) || *s == '.')
 			{
-				if (_parse_specs(&s, &specs) == FALSE) /* if invalid, reset ptr */
+				if (_parse_specs(&s, &specs) == FALSE) /* if invalid,
+					reset ptr */
 				{
-//					printf(" invalid specs...\n"); fflush(stdout);
 					s = start;
 					continue ;
 				}
 			}
 			_do_idu_flags(s, args, &specs);
 			_do_cs_flags(s, args, &specs);
-			//_do_p_flag(s, args, &specs);
 			_do_xX_flags(s, args, &specs);
 			_do_pc(s);
 		}
