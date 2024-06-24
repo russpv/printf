@@ -5,9 +5,6 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-// Temp includes
-# include <stdio.h>
-
 # define FLAGS "#-+0 "
 # define SUCCESS 0
 # define FAILURE -1
@@ -83,15 +80,14 @@ typedef unsigned long	long(t_uintptr_t);
 # define ULSZ 4
 
 int						ft_printf(const char *s, ...);
-char	*type_switch(void *val, t_types typ, t_spec *specs);
+char					*type_switch(void *val, t_types typ, t_spec *specs);
 
 /* Flags */
-char	*safe_join(const char *s1, const char *s2);
-char	*append_char(const char *ch, const char *r);
-char	*apply_minprecision_num(const char *r, t_spec *s);
-char    *apply_minprecision_char(const char *r, t_spec *s);
-
-
+char					*safe_join(const char *s1, const char *s2);
+char					*append_char(const char *ch, const char *r);
+char					*apply_minwidth(const char *r, t_spec *s);
+char					*apply_minprecision_num(const char *r, t_spec *s);
+char					*apply_minprecision_char(const char *r, t_spec *s);
 
 /* Utils */
 int						is_flag(const char *s);

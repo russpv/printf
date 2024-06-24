@@ -17,7 +17,7 @@ static inline char	*_repeat(size_t len, char ch)
 	return (new);
 }
 
-/* Stuff after '.' */
+/* Flag determines either normal numbers or precision after '.' */
 static int	_parse_qty(const char **s, size_t *var, int check, int *flag)
 {
 	unsigned int	qty;
@@ -39,7 +39,7 @@ static int	_parse_qty(const char **s, size_t *var, int check, int *flag)
 	return (TRUE);
 }
 
-/* Reads any permutation of flags prior to quantities and flips its switch */
+/* Reads any permutation of flags and quantities */
 static int	_parse_specs(const char **s, t_spec *specs)
 {
 	while (is_flag(*s))
@@ -57,15 +57,11 @@ static int	_parse_specs(const char **s, t_spec *specs)
 		(*s)++;
 	}
 	if (ft_isdigit(**s))
-	{
 		_parse_qty(s, &specs->minwidth, FALSE, &specs->mwflg);
-	}
 	if (**s == '.')
 	{
 		if (_parse_qty(s, &specs->minprec, TRUE, &specs->mpflg) == FALSE)
-		{
 			return (FALSE);
-		}
 		if (specs->mpflg == TRUE)
 			specs->pch = ' ';
 	}
@@ -90,23 +86,23 @@ int	ft_printf(const char *s, ...)
 	while (*s)
 	{
 		if (*s != '%')
-			ft_putchar((unsigned int)*s);
+			ft_putchar((unsigned int)*s); // TODO: add '++'
 		else
 		{
 			_init_specs(&specs);
 			s++;
 			if (is_flag(s) == TRUE || ft_isdigit(*s) || *s == '.')
 			{
-				if (_parse_specs(&s, &specs) == FALSE)
+				if (_parse_specs(&s, &specs) == FALSE) // Invalid input, abort
 				{
-					s = start;
+					s = start; // TODO: add '++' 
 					continue ;
 				}
 			}
 			_do_flags(s, args, &specs);
 		}
-		s++;
+		s++; // TODO: remove
 	}
 	va_end(args);
 	return (SUCCESS);
-} 
+}
