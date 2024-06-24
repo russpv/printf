@@ -1,19 +1,6 @@
 NAME = libftprintf.a
 
-SOURCES = draft.c \
-			ft_strlen.c \
-			ft_putstr.c \
-			ft_putchar.c \
-			ft_putnbr.c \
-			ft_itoa.c \
-			ft_itoa_base.c \
-			ft_substr.c \
-			ft_strjoin.c \
-			ft_isdigit.c \
-			ft_memcpy.c \
-			ft_memset.c \
-			ft_toupper.c \
-			ft_strncmp.c 
+SOURCES = draft.c
 
 BSOURCES =	ft_printf_bonus.c\
 
@@ -29,7 +16,9 @@ BOBJECTS = $(BSOURCES:.c=.o)
 AR = ar -rvcs
 CC = cc
 RM = rm -f
-CFLAGS = -Wall -Wextra -Werror 
+CFLAGS = -Wall -Wextra -Werror -I./$(LIBFT_DIR)
+LIBFT_DIR = ./libft/
+LIBFT_AR = $(addprefix $(LIBFT_DIR), libft.a)
 
 # Targets
 all: $(NAME)
@@ -37,9 +26,19 @@ all: $(NAME)
 %.o: %.c
 	$(CC) -c $(CFLAGS) $< -o $@ 
 
+$(LIBFT_AR):
+	@make -C $(LIBFT_DIR)
 
-$(NAME): $(OBJECTS)
+$(NAME): $(LIBFT_AR) $(OBJECTS)
 	@echo "Creating $(NAME) archive..."
+	@if ! cp $(LIBFT_AR) $(NAME) >> error.txt 2>&1; then \
+		echo "$(RED)$(BOLD)MAKEFILE TERMINATED!$(RESET)"; \
+		echo "$(YELLOW)Error copying $(LIBFT_AR) to $(NAME)$(RESET)"; \
+		echo "\n\n$(RED)$(BOLD)ERROR$(RESET)"; \
+		sed '$$d' error.txt; \
+		echo "\n\n$(YELLOW)EXITING$(RESET)"; \
+		exit 1; \
+	fi
 	@if ! $(AR) $@ $^ >> error.txt 2>&1; then \
 		echo "$(RED)$(BOLD)MAKEFILE TERMINATED!$(RESET)"; \
 		echo "$(YELLOW)Error creating $(NAME)$(RESET)"; \
@@ -64,6 +63,7 @@ bonus: .bonus_made
 	@echo "$(YELLOW)Created: $(NAME)$(RESET)"
 
 clean:
+	@make -s fclean -C $(LIBFT_DIR)
 	-@$(RM) .bonus_made error.txt # dash to suppress error msgs
 	@if [ -n "$$(ls -A $(OBJECTS) $(BOBJECTS) 2>/dev/null)" ]; then \
 		$(RM) $(OBJECTS) $(BOBJECTS); \
@@ -72,7 +72,7 @@ clean:
 	fi
 
 fclean: clean
-	@if [ -n "$$(ls -A $(NAME)  2>/dev/null)" ]; then \
+	@if [ -n "$$(ls -A $(NAME) $(LIBFT_AR) 2>/dev/null)" ]; then \
 		$(RM) $(NAME) $(LIBFT_AR); \
 		echo "$(GREEN)SUCCESS$(RESET)"; \
 		echo "$(YELLOW) Deleted: $(NAME) and $(LIBFT_AR)$(RESET)"; \
