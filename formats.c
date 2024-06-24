@@ -5,6 +5,8 @@ static void	_reset_specs(t_spec *specs, t_types type)
 {
 	if (type == INT)
 		specs->schar = "+";
+	if (type == HEX || type == PTR)
+		specs->base = 16;
 	if (type == UINT || type == PTR || type == HEX)
 	{
 		specs->lchar = "";
@@ -39,7 +41,7 @@ void	_do_idu_flags(const char *s, va_list args, t_spec *specs)
 	}
 	else if (*s == 'u')
 	{
-		uvalue = va_arg(args, unsigned int);
+		uvalue = va_arg(args, unsigned long);
 		_reset_specs(specs, UINT);
 		_printoutput(_myf(&uvalue, UINT, specs));
 	}

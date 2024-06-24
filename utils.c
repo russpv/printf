@@ -27,6 +27,7 @@ void	_init_specs(t_spec *specs)
 	specs->altflag = FALSE;
 	specs->lchar = "";
 	specs->pch = ' ';
+	specs->base = 10;
 }
 
 void	_printoutput(void *res)

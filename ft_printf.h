@@ -26,21 +26,21 @@ typedef enum e_types
 
 typedef struct s_spec
 {
-	int					ljustflag;
-	int					signflag;
-	int					leadcharflag;
-	int					minprecflag;
-	int					minwidthflag;
-	int					altflag;
-	char				*schar;
+	int					ljstflg;
+	int					signflg;
+	int					leadflg;
+	int					mpflg;
+	int					mwflg;
+	int					altflg;
+	unsigned int		base;
+	char				*sch;
 	char				pch;
-	char				*lchar;
+	char				*lch;
 	char				type;
 	size_t				minwidth;
 	size_t				minprec;
 	size_t				len;
-	size_t				prelen;
-	size_t				postlen;
+	size_t				padlen;
 }						t_spec;
 typedef enum e_bool
 {
