@@ -91,7 +91,7 @@ void					_init_specs(t_spec *specs);
 void					_printoutput(void *res);
 char					*_toupper(char *s);
 
-/* Type handlers */
+/* Format handlers */
 void					_do_idu_flags(const char *s, va_list args,
 							t_spec *specs);
 void					_do_cs_flags(const char *s, va_list args,

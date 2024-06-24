@@ -1,6 +1,7 @@
 NAME = libftprintf.a
 
 SOURCES = ft_printf.c \
+			formats.c \
 		  flags.c \
 		  utils.c \
 			ft_strlen.c \
