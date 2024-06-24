@@ -12,20 +12,19 @@
 
 #include "ft_printf.h"
 
-# define DIGITS 65
+#define DIGITS 65
 
 /* ITOA BASE
 ** Returns new C-string representing n value in bases 2-20
 ** 64 digits (+null) should represent a long long signed binary number
 */
 
-
 /* Moves backwards along pre-terminated fixed buffer */
 static inline char	*load_str(char *s, unsigned long long n, unsigned int base)
 {
-	int	sign;
-	const char *radix = "0123456789abcdefghijk";
-	
+	int			sign;
+	const char	*radix = "0123456789abcdefghijk";
+
 	sign = 0;
 	if (n < 0)
 	{
