@@ -4,26 +4,26 @@
 static void	_reset_specs(t_spec *specs, t_types type)
 {
 	if (type == INT)
-		specs->schar = "+";
+		specs->sch = "+";
 	if (type == HEX || type == PTR)
 		specs->base = 16;
 	if (type == UINT || type == PTR || type == HEX)
 	{
-		specs->lchar = "";
-		specs->signflag = FALSE;
+		specs->lch = "";
+		specs->signflg = FALSE;
 	}
 	else if (type == STR)
 	{
 		specs->pch = ' ';
-		specs->lchar = "";
-		specs->signflag = FALSE;
+		specs->lch = "";
+		specs->signflg = FALSE;
 	}
 	else if (type == CHR)
 	{
 		specs->pch = ' ';
-		specs->lchar = "";
-		specs->signflag = FALSE;
-		specs->minprecflag = FALSE;
+		specs->lch = "";
+		specs->signflg = FALSE;
+		specs->mpflg = FALSE;
 	}
 }
 
@@ -37,19 +37,19 @@ void	_do_idu_flags(const char *s, va_list args, t_spec *specs)
 	{
 		value = va_arg(args, int);
 		_reset_specs(specs, INT);
-		_printoutput(_myf(&value, INT, specs));
+		_printoutput(type_switch(&value, INT, specs));
 	}
 	else if (*s == 'u')
 	{
 		uvalue = va_arg(args, unsigned long);
 		_reset_specs(specs, UINT);
-		_printoutput(_myf(&uvalue, UINT, specs));
+		_printoutput(type_switch(&uvalue, UINT, specs));
 	}
 	else if (*s == 'p')
 	{
 		ptr = (unsigned long)va_arg(args, void *);
 		_reset_specs(specs, PTR);
-		_printoutput(_myf(&ptr, PTR, specs));
+		_printoutput(type_switch(&ptr, PTR, specs));
 	}
 	else
 		return ;
@@ -66,13 +66,13 @@ void	_do_cs_flags(const char *s, va_list args, t_spec *specs)
 	{
 		c = (char)va_arg(args, int);
 		_reset_specs(specs, CHR);
-		res = _myf(&c, CHR, specs);
+		res = type_switch(&c, CHR, specs);
 	}
 	else if (*s == 's')
 	{
 		string = va_arg(args, char *);
 		_reset_specs(specs, STR);
-		res = _myf(string, STR, specs);
+		res = type_switch(string, STR, specs);
 	}
 	else
 		return ;
@@ -90,7 +90,7 @@ void	_do_xx_flags(const char *s, va_list args, t_spec *specs)
 		return ;
 	num = va_arg(args, unsigned int);
 	_reset_specs(specs, HEX);
-	res = _myf(&num, HEX, specs);
+	res = type_switch(&num, HEX, specs);
 	if (res == NULL)
 	{
 		res = "(null)";

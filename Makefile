@@ -3,6 +3,7 @@ NAME = libftprintf.a
 SOURCES = ft_printf.c \
 			formats.c \
 		  flags.c \
+			flags2.c \
 		  utils.c \
 			ft_strlen.c \
 			ft_putstr.c \

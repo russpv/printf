@@ -45,28 +45,28 @@ static int	_parse_specs(const char **s, t_spec *specs)
 	while (is_flag(*s))
 	{
 		if (**s == '-')
-			specs->ljustflag = TRUE;
+			specs->ljstflg = TRUE;
 		if (**s == '+')
-			specs->signflag = TRUE;
-		if (**s == ' ' && specs->signflag == FALSE)
-			specs->lchar = " ";
-		if (**s == '0' && specs->ljustflag == FALSE)
+			specs->signflg = TRUE;
+		if (**s == ' ' && specs->signflg == FALSE)
+			specs->lch = " ";
+		if (**s == '0' && specs->ljstflg == FALSE)
 			specs->pch = '0';
 		if (**s == '#')
-			specs->altflag = TRUE;
+			specs->altflg = TRUE;
 		(*s)++;
 	}
 	if (ft_isdigit(**s))
 	{
-		_parse_qty(s, &specs->minwidth, FALSE, &specs->minwidthflag);
+		_parse_qty(s, &specs->minwidth, FALSE, &specs->mwflg);
 	}
 	if (**s == '.')
 	{
-		if (_parse_qty(s, &specs->minprec, TRUE, &specs->minprecflag) == FALSE)
+		if (_parse_qty(s, &specs->minprec, TRUE, &specs->mpflg) == FALSE)
 		{
 			return (FALSE);
 		}
-		if (specs->minprecflag == TRUE)
+		if (specs->mpflg == TRUE)
 			specs->pch = ' ';
 	}
 	return (TRUE);
