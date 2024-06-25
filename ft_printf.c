@@ -5,7 +5,7 @@
  */
 
 /* Creates padding strings */
-static inline char	*_repeat(size_t len, char ch)
+char	*repeat(size_t len, char ch)
 {
 	char	*new;
 
@@ -40,7 +40,7 @@ static int	_parse_qty(const char **s, size_t *var, int check, int *flag)
 }
 
 /* Reads any permutation of flags and quantities */
-static int	_parse_specs(const char **s, t_spec *specs)
+static inline int	_parse_specs(const char **s, t_spec *specs)
 {
 	while (is_flag(*s))
 	{
@@ -68,12 +68,13 @@ static int	_parse_specs(const char **s, t_spec *specs)
 	return (TRUE);
 }
 
-static void	_do_flags(const char *s, va_list args, t_spec *specs)
+static inline void	_do_formats(const char **s, va_list args, t_spec *specs)
 {
-	_do_idu_flags(s, args, specs);
-	_do_cs_flags(s, args, specs);
-	_do_xx_flags(s, args, specs);
-	_do_pc(s);
+	do_idu_formats(*s, args, specs);
+	do_cs_formats(*s, args, specs);
+	do_xx_formats(*s, args, specs);
+	do_pc(*s);
+	(*s)++;
 }
 
 int	ft_printf(const char *s, ...)
@@ -86,22 +87,21 @@ int	ft_printf(const char *s, ...)
 	while (*s)
 	{
 		if (*s != '%')
-			ft_putchar((unsigned int)*s); // TODO: add '++'
+			ft_putchar((unsigned int)*s++);
 		else
 		{
-			_init_specs(&specs);
-			s++;
+			start = ++s;
+			init_specs(&specs);
 			if (is_flag(s) == TRUE || ft_isdigit(*s) || *s == '.')
 			{
-				if (_parse_specs(&s, &specs) == FALSE) // Invalid input, abort
+				if (_parse_specs(&s, &specs) == FALSE)
 				{
-					s = start; // TODO: add '++' 
+					s = start;
 					continue ;
 				}
 			}
-			_do_flags(s, args, &specs);
+			_do_formats(&s, args, &specs); // must be on the specifier
 		}
-		s++; // TODO: remove
 	}
 	va_end(args);
 	return (SUCCESS);

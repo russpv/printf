@@ -39,43 +39,69 @@ int main(){
 	printf("\n====MYCODE====\n\n");
 	printf("\n====CHARS=====\n\n");
 	printf("pf_%-5c_", 0); printf("\n");fflush(stdout);
-	ft_printf("ft_%-5c_", 0); 
+	ft_printf("ft_%-5c_", 0); printf("\n\n"); fflush(stdout);
+
 	printf("pf_%.c_\n", 'a'); fflush(stdout);
-	ft_printf("ft_%.c_\n", 'a');
+	ft_printf("ft_%.c_\n\n", 'a');
+
 	printf("_"); printf("%-5c", '\0'); printf("_\n"); fflush(stdout);
-	ft_printf("_"); ft_printf("%-5c", '\0'); ft_printf("_\n");
+	ft_printf("_"); ft_printf("%-5c", '\0'); ft_printf("_\n\n");
+
 	printf("pf"); printf("{%3c}", 0); printf("_\n"); fflush(stdout);
-	ft_printf("ft_"); ft_printf("{%3c}", 0); ft_printf("_\n");
+	ft_printf("ft_"); ft_printf("{%3c}", 0); ft_printf("_\n\n");
+
 	printf("%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c//%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c", ' ','!','"','#','$', '%','&','\'','(',')','*','+',',','-','.','/','0','1','2','3','4','5','6','7','8','9',':', ';','<','=','>','?','@','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q', 'R','S','T','U', 'V','W','X','Y','Z','[','\\',']','^','_','`','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p', 'q','r','s','t','u','v','w','x','y','z','{','|','~'); fflush(stdout);
 	printf("\n\n");
 	ft_printf("%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c//%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c", ' ','!','"','#','$', '%','&','\'','(',')','*','+',',','-','.','/','0','1','2','3','4','5','6','7','8','9',':', ';','<','=','>','?','@','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q', 'R','S','T','U', 'V','W','X','Y','Z','[','\\',']','^','_','`','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p', 'q','r','s','t','u','v','w','x','y','z','{','|','~'); fflush(stdout);
 
 	printf("\n====POINTRS===\n\n");
-	printf("pf_%5.0p\n", &a01);
-	printf("pf_%p", NULL); ft_printf("\n"); fflush(stdout);
-	ft_printf("ft_%p", NULL); printf("\n");
+	printf("pf_%5.1p\n", &a01); fflush(stdout);
+	ft_printf("ft_%5.p\n", &a01); ft_printf("\n");
+
+	printf("pf_%p", NULL); printf("\n"); fflush(stdout);
+	ft_printf("ft_%p", NULL); printf("\n\n");
 	printf("%p%p%p%p%p%p%p%p%p%p%p%p",&a01,&a02,&a03,&a04,&a05,&a06,&a07,&a08,&a09,&a10,&a11,&a12); fflush(stdout);
 	ft_printf("\n\n%p%p%p%p%p%p%p%p%p%p%p%p",&a01,&a02,&a03,&a04,&a05,&a06,&a07,&a08,&a09,&a10,&a11,&a12); fflush(stdout);
 	printf("\n%-32p%-32p%-32p%-32p%-32p%-32p%-32p%-32p%-32p%-32p%-32p%-32p",&a01,&a02,&a03,&a04,&a05,&a06,&a07,&a08,&a09,&a10,&a11,&a12); fflush(stdout);
 	ft_printf("\n%-32p%-32p%-32p%-32p%-32p%-32p%-32p%-32p%-32p%-32p%-32p%-32p",&a01,&a02,&a03,&a04,&a05,&a06,&a07,&a08,&a09,&a10,&a11,&a12); fflush(stdout);
 
 	printf("\n====HEXNUMS===\n\n");
-	printf("%8.3X\n", 8375);
-	ft_printf("%8.3X\n", 8375)	;
-	printf("%5x\n", -52625);
-	ft_printf("%5x\n", -52625);
+
+	printf("%-x\n", 42); fflush(stdout);
+	ft_printf("%-x", 42); ft_printf("\n\n"); 
+
+	printf("%8.3X\n", 8375); fflush(stdout);
+	ft_printf("%8.3X\n\n", 8375);
+
+	printf("%5x\n", -52625); fflush(stdout);
+	ft_printf("%5x\n\n", -52625);
+
 	printf("\n====NUMBERS===\n\n");
 	printf("p14 %5.0d\n", 100); fflush(stdout);
-	ft_printf("p14 %5.0d\n", 100);
-	printf("pf%.0i", 0); ft_printf("\n");
-	ft_printf("ft%.0i", 0); ft_printf("\n");
-	printf("_%8.3i\n", 8375);
-	ft_printf("_%8.3i\n", 8375);
-	ft_printf("_%5.0i_\n", 0);
-	ft_printf("%07i\n", -54);
-	ft_printf("_%8.5i_", 34); printf("\n");
+	ft_printf("p14 %5.0d\n\n", 100);
+	
+	printf("pf%.0i", 0); ft_printf("\n"); fflush(stdout);
+	ft_printf("ft%.0i", 0); ft_printf("\n\n");
+	
+	printf("_%8.3i\n", 8375); fflush(stdout);
+	ft_printf("_%8.3i\n\n", 8375);
+	
+	ft_printf("_%5.0i_\n\n", 0); fflush(stdout);
+	
+	ft_printf("%07i\n\n", -54);
+	
+	ft_printf("_%8.5i_", 34); printf("\n\n");
+	
 	ft_printf("_%-7i_", -14); printf("\n");
-	ft_printf("_%7i_", -14); printf("\n");
+	ft_printf("_%7i_", -14); printf("\n\n");
+
+	printf("%.3u", 13862); printf(" ");fflush(stdout);
+	ft_printf("%.3u", 13862);
+
+printf("\npfthis %i number\n", -267); fflush(stdout);
+ft_printf("ftthis %i number\n", -267);
+
+	
 	printf("\n====STRINGS===\n\n");
 	printf("pf%-s_", "hello"); printf("\n");
 	ft_printf("ft%s_", "hello");
@@ -87,11 +113,12 @@ int main(){
 	ft_printf ("%7.3s%7.3s", "hello", "world");
 
 	printf("\n====MULTI=====\n\n");
-	printf("_%-153p_%0110.8x%110p" ,(void*)17240180584784891087lu,2705171059u,(void*)1312307382483808423lu); fflush(stdout);
-	ft_printf("\n_%-153p_%0110.8x%110p" ,(void*)17240180584784891087lu,2705171059u,(void*)1312307382483808423lu); 
+	printf("pf_%-153p_%0110.8x%110p" ,(void*)17240180584784891087lu,2705171059u,(void*)1312307382483808423lu); fflush(stdout);
+	ft_printf("\nft_%-153p_%0110.8x%110p" ,(void*)17240180584784891087lu,2705171059u,(void*)1312307382483808423lu); 
 
-	printf("\npf %lld %llu \n", (long long)17240180584784891087lu, 17240180584784891087lu); fflush(stdout);
-
+	printf("\npf %lld %llu", (long long)17240180584784891087lu, 17240180584784891087lu); fflush(stdout);
+	ft_printf("\nft %d %u \n", (long long)17240180584784891087lu, 17240180584784891087lu);
+	
 	ft_printf ("Integers:_%- +010.6d$_% + +10.8u$ \n", 255, 1234);
 	ft_printf ("Padding check: %50..i_% u_%+ p \n", 3456, 3456, p);
 	ft_printf ("Characters: %c %c \n", 'z', 80);

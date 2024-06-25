@@ -15,7 +15,7 @@
 #define DIGITS 65
 
 /* ITOA BASE
-** Returns new C-string representing n value in bases 2-20
+** Returns new C-string representing POSITIVE n value in bases 2-20
 ** 64 digits (+null) should represent a long long signed binary number
 */
 
@@ -43,7 +43,7 @@ static inline char	*load_str(char *s, unsigned long long n, unsigned int base)
 	return (++s);
 }
 
-char	*ft_itoa_base(long long num, unsigned int base)
+char	*ft_itoa_base(unsigned long long num, unsigned int base)
 {
 	char	c[DIGITS];
 	char	*s;
@@ -54,7 +54,7 @@ char	*ft_itoa_base(long long num, unsigned int base)
 	dest = malloc(sizeof(char) * (ft_strlen(s) + 1));
 	if (!dest)
 		return (NULL);
+	ft_memcpy(dest, s, ft_strlen(s));
 	dest[ft_strlen(s)] = 0;
-	dest = ft_memcpy(dest, s, ft_strlen(s));
 	return (dest);
 }

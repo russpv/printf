@@ -1,6 +1,10 @@
 #include "ft_printf.h"
 
-/* Returns NULL if args are NULL, else returns ptr to new string */
+/* Returns NULL if heap string args are NULL, else \
+** returns ptr to new string
+** s1: can be char or heap string
+** s2: must be heap string
+*/
 char	*safe_join(const char *s1, const char *s2)
 {
 	char	*res;
@@ -9,57 +13,71 @@ char	*safe_join(const char *s1, const char *s2)
 		return (NULL);
 	if (!s1 && s2)
 	{
-		free(s2);
+		free((char *)s2);
 		return (NULL);
 	}
 	else if (s1 && !s2)
 	{
-		free(s1);
+		free((char *)s1);
 		return (NULL);
 	}
 	res = ft_strjoin(s1, s2);
-	free(s2);
-	free(s1);
+	free((char *)s2);
+	free((char *)s1);
+	s2 = NULL;
+	s1 = NULL;
 	if (!res)
 		return (NULL);
 	return (res);
 }
 
-/* add the sign char or lead char for HIPU */
+/* Adds the sign char or lead char for HIPU 
+** ch: string literal of one char
+** r: must be heap string
+*/
 char	*append_char(const char *ch, const char *r)
 {
 	char	*res2;
 
-	res2 = safe_join(ch, r);
+	res2 = ft_strjoin(ch, r);
+	free ((char *)r);
 	if (!res2)
 		return (NULL);
 	return (res2);
 }
 
 /* Applies minimum precision to numerics
- * Truncates 0
+ * Truncates 0 to (blank) (except pointers' "(nil)")
  * Adds prepadding with '0'
+ * Returns heap string
+ * r: must be heap string (0x..., )
  */
-char	*apply_minprecision_num(const char *r, t_spec *s)
+char	*apply_minprecision_num(char *r, t_spec *s)
 {
 	char	*res2;
 	char	*tmp;
 
-	if (s->minprec == 0 && (ft_strncmp(r, "0", 1) == 0)) // 0 has no minprec
-		r = ft_strjoin("", "");
-	if (ft_strlen(r) < s->minprec)
-	// '0' padding TODO: empty string with padding?
+	if (s->minprec == 0 && (ft_strncmp(r, "0", 2) == 0))
 	{
-		tmp = _repeat(s->minprec - ft_strlen(r), '0');
+		free (r);
+		r = ft_strjoin("", "");
+	}
+	if (ft_strlen(r) < s->minprec) // '0' padding TODO: empty string with padding?
+	{
+		tmp = repeat(s->minprec - ft_strlen(r), '0');
 		res2 = safe_join(tmp, r);
 		if (!res2)
 			return (NULL);
 		return (res2);
 	}
+	return (r);
 }
 
-/* Applies minimum precision to strings by truncation */
-char	*apply_minprecision_char(const char *r, t_spec *s)
+/* Applies minimum precision to strings by truncation
+** Returns heap string 
+** r: must be heap string
+*/
+char	*apply_minprecision_char(char *r, t_spec *s)
 {
 	char	*res2;
 
@@ -71,18 +89,20 @@ char	*apply_minprecision_char(const char *r, t_spec *s)
 	return (res2);
 }
 
-/* Applies minimum width pre or post padding */
-char	*apply_minwidth(const char *r, t_spec *s)
+/* Applies minimum width pre or post padding 
+** Returns heap string
+** r: must be heap string
+*/
+char	*apply_minwidth(char *r, t_spec *s)
 {
 	char	*tmp;
 
 	s->padlen = s->minwidth - s->len;
-	tmp = _repeat(s->padlen, s->pch);
+	tmp = repeat(s->padlen, s->pch);
 	if (s->ljstflg == TRUE)
 		r = safe_join(r, tmp);
 	else
 		r = safe_join(tmp, r);
-	free(tmp);
 	if (!r)
 		return (NULL);
 	return (r);

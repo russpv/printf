@@ -4,6 +4,7 @@
 # include <stdarg.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdio.h>
 
 # define FLAGS "#-+0 "
 # define SUCCESS 0
@@ -81,28 +82,29 @@ typedef unsigned long	long(t_uintptr_t);
 
 int						ft_printf(const char *s, ...);
 char					*type_switch(void *val, t_types typ, t_spec *specs);
+char					*repeat(size_t len, char ch);
 
 /* Flags */
 char					*safe_join(const char *s1, const char *s2);
 char					*append_char(const char *ch, const char *r);
-char					*apply_minwidth(const char *r, t_spec *s);
-char					*apply_minprecision_num(const char *r, t_spec *s);
-char					*apply_minprecision_char(const char *r, t_spec *s);
+char					*apply_minwidth(char *r, t_spec *s);
+char					*apply_minprecision_num(char *r, t_spec *s);
+char					*apply_minprecision_char(char *r, t_spec *s);
 
 /* Utils */
 int						is_flag(const char *s);
-void					_init_specs(t_spec *specs);
-void					_printoutput(void *res);
-char					*_toupper(char *s);
+void					init_specs(t_spec *specs);
+void					print_output(void *res);
+char					*to_upper(char *s);
 
 /* Format handlers */
-void					_do_idu_flags(const char *s, va_list args,
+void					do_idu_formats(const char *s, va_list args,
 							t_spec *specs);
-void					_do_cs_flags(const char *s, va_list args,
+void					do_cs_formats(const char *s, va_list args,
 							t_spec *specs);
-void					_do_xx_flags(const char *s, va_list args,
+void					do_xx_formats(const char *s, va_list args,
 							t_spec *specs);
-void					_do_pc(const char *s);
+void					do_pc(const char *s);
 
 /* libft */
 void					ft_putnbr(long n);
@@ -116,7 +118,7 @@ char					*ft_substr(char const *s, unsigned int start,
 char					*ft_strjoin(char const *s1, char const *s2);
 t_bool					ft_isdigit(int c);
 char					*ft_itoa(long long n);
-char					*ft_itoa_base(long long n, unsigned int base);
+char					*ft_itoa_base(unsigned long long n, unsigned int base);
 void					*ft_memset(void *str, int c, size_t n);
 void					*ft_memcpy(void *dest, const void *src, size_t n);
 int						ft_strncmp(const char *s1, const char *s2, size_t n);
