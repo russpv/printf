@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-# define DIGITS 20
+#define DIGITS 20
 
 /* ITOA
 ** Returns new C-string representing n value

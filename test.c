@@ -140,6 +140,11 @@ printf("s: %s, p: %p, d:%d", "a string", &a06, 42); printf("\n"); fflush(stdout)
 ft_printf("s: %s, p: %p, d:%d", "a string", &a06, 42); ft_printf("%d", 42);
 ft_printf("\n\n");
 
+	printf("\n====ALTS=====\n\n");
+
+	printf("%#d %#i %#p %#x %#X %#u %#c\n", 42, 42, &a06, 42, 42, 42, 'a'); fflush(stdout);
+	ft_printf("%#d %#i %#p %#x %#X %u %#c\n", 42, 42, &a06, 42, 42, 42, 'a');
+
 	ft_printf ("Integers:_%- +010.6d$_% + +10.8u$ \n", 255, 1234);
 	ft_printf ("Padding check: %50..i_% u_%+ p \n", 3456, 3456, p);
 	ft_printf ("Characters: %c %c \n", 'z', 80);

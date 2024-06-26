@@ -96,7 +96,7 @@ static void	_handle_neg(unsigned long long *value, void *val, t_spec *s)
 		s->sch = "-";
 		s->signflg = TRUE;
 		if (num == min_int)
-			*value = (unsigned long long)~min_int + 1;
+			*value = (unsigned long long)(~min_int) + 1;
 		else
 			*value = (unsigned long long)(-num);
 	}
@@ -118,17 +118,17 @@ char	*type_switch(void *val, t_types typ, t_spec *specs)
 	if (typ == CHR || typ == STR)
 		res = (char *)val;
 	if (typ == CHR || typ == STR)
-		res = _do_flags_CS(res, specs, typ, val);
+		res = _do_flags_cs(res, specs, typ, val);
 	if (typ == INT)
 		_handle_neg(&value, val, specs);
 	if (typ == HEX || typ == PTR || typ == UINT)
-		value = *(unsigned long long *)val;
+		value = *(unsigned int *)val;
 	if (typ == HEX || typ == INT || typ == PTR || typ == UINT)
 		res = ft_itoa_base(value, specs->base);
 	if (typ == PTR)
 		res = _apply_0x_nil(res);
 	if (typ == HEX || typ == INT || typ == PTR || typ == UINT)
-		res = _do_flags_HIPU(res, specs);
+		res = _do_flags_hipu(res, specs);
 	if (!res)
 		return (NULL);
 	return (res);

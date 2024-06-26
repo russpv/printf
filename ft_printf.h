@@ -118,7 +118,7 @@ char					*ft_substr(char const *s, unsigned int start,
 							size_t len);
 char					*ft_strjoin(char const *s1, char const *s2);
 t_bool					ft_isdigit(int c);
-char					*ft_itoa(long long n);
+//char					*ft_itoa(long long n);
 char					*ft_itoa_base(unsigned long long n, unsigned int base);
 void					*ft_memset(void *str, int c, size_t n);
 void					*ft_memcpy(void *dest, const void *src, size_t n);

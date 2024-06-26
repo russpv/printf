@@ -2,7 +2,7 @@
 
 /* Returns NULL if heap string args are NULL, else \
 ** returns ptr to new string
-** s1: can be char or heap string
+** s1: must be heap string
 ** s2: must be heap string
 */
 char	*safe_join(const char *s1, const char *s2)
