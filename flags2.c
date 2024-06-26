@@ -31,7 +31,7 @@ char	*safe_join(const char *s1, const char *s2)
 	return (res);
 }
 
-/* Adds the sign char or lead char for HIPU 
+/* Adds the sign char or lead char for HIPU
 ** ch: string literal of one char
 ** r: must be heap string
 */
@@ -40,7 +40,7 @@ char	*append_char(const char *ch, const char *r)
 	char	*res2;
 
 	res2 = ft_strjoin(ch, r);
-	free ((char *)r);
+	free((char *)r);
 	if (!res2)
 		return (NULL);
 	return (res2);
@@ -56,12 +56,12 @@ char	*apply_minprecision_num(char *r, t_spec *s)
 {
 	char	*res2;
 	char	*tmp;
-	
+
 	if (!r)
-		r = ft_strjoin("","");
+		r = ft_strjoin("", "");
 	if (s->minprec == 0 && (ft_strncmp(r, "0", 2) == 0))
 	{
-		free (r);
+		free(r);
 		r = ft_strjoin("", "");
 	}
 	if (ft_strlen(r) < s->minprec)
@@ -76,7 +76,7 @@ char	*apply_minprecision_num(char *r, t_spec *s)
 }
 
 /* Applies minimum precision to strings by truncation
-** Returns heap string 
+** Returns heap string
 ** r: must be heap string
 */
 char	*apply_minprecision_char(char *r, t_spec *s)
@@ -91,7 +91,7 @@ char	*apply_minprecision_char(char *r, t_spec *s)
 	return (res2);
 }
 
-/* Applies minimum width pre or post padding 
+/* Applies minimum width pre or post padding
 ** Returns heap string
 ** r: must be heap string
 ** padding on empty string is valid

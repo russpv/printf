@@ -16,13 +16,13 @@ static inline char	*_do_flags_cs(char *r, t_spec *s, t_types typ, void *val)
 	if (!r && (s->mpflg == TRUE && s->minprec < 6))
 		r = ft_substr("", 0, 0);
 	else if (!r && (s->mwflg || (s->mpflg == TRUE && s->minprec >= 6)))
-		r = ft_substr("(null)", 0, 6); 
-	else if (r) 
+		r = ft_substr("(null)", 0, 6);
+	else if (r)
 		r = ft_substr((char *)val, 0, ft_strlen((char *)val));
 	if (!r)
 		return (NULL);
 	s->len = ft_strlen(r);
-	if (typ == CHR && s->len == 0) 
+	if (typ == CHR && s->len == 0)
 		s->len = 1;
 	if (s->mpflg && s->minprec < s->len)
 		r = apply_minprecision_char(r, s);
@@ -58,12 +58,12 @@ static inline char	*_do_flags_hipu(char *r, t_spec *s)
 	return (r);
 }
 
-/* Adds default hex prefix or returns heap "(nil)" for PTR 
+/* Adds default hex prefix or returns heap "(nil)" for PTR
 ** r: must be heap string
 */
 static inline char	*_apply_0x_nil(char *r)
 {
-	char *tmp;
+	char	*tmp;
 
 	tmp = safe_join(ft_strjoin("0x", ""), r);
 	if (tmp)
@@ -81,14 +81,14 @@ static inline char	*_apply_0x_nil(char *r)
 	return (r);
 }
 
-/* Sets negative sign char and flag for printing INT 
+/* Sets negative sign char and flag for printing INT
 ** 'Long long' container would be excessive; va_arg() permits int reception only
 */
 static void	_handle_neg(unsigned long long *value, void *val, t_spec *s)
 {
-	int num;
-	int min_int;
-	
+	int	num;
+	int	min_int;
+
 	num = *(int *)val;
 	if (num < 0)
 	{
@@ -104,10 +104,10 @@ static void	_handle_neg(unsigned long long *value, void *val, t_spec *s)
 		*value = *(unsigned long long *)val;
 }
 
-/* Switchboard for handling flags by arg specifier 
+/* Switchboard for handling flags by arg specifier
 ** Returns heap string
-** HEX, PTR, UINT are positive-only 
-** 
+** HEX, PTR, UINT are positive-only
+**
 */
 char	*type_switch(void *val, t_types typ, t_spec *specs)
 {
@@ -122,8 +122,8 @@ char	*type_switch(void *val, t_types typ, t_spec *specs)
 	if (typ == INT)
 		_handle_neg(&value, val, specs);
 	if (typ == HEX || typ == PTR || typ == UINT)
-		value = *(unsigned long long *)val;	
-	if (typ == HEX || typ == INT || typ == PTR || typ == UINT) 
+		value = *(unsigned long long *)val;
+	if (typ == HEX || typ == INT || typ == PTR || typ == UINT)
 		res = ft_itoa_base(value, specs->base);
 	if (typ == PTR)
 		res = _apply_0x_nil(res);
