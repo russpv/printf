@@ -19,18 +19,20 @@
 ** 64 digits (+null) should represent a long long signed binary number
 */
 
-/* Moves backwards along pre-terminated fixed buffer */
+/* Moves backwards along pre-terminated fixed buffer 
+** Adapted to handle unsigned only. 
+*/
 static inline char	*load_str(char *s, unsigned long long n, unsigned int base)
 {
 	int			sign;
 	const char	*radix = "0123456789abcdefghijk";
 
 	sign = 0;
-	if (n < 0)
+	/*if (n < 0)
 	{
 		n *= -1;
 		sign = 1;
-	}
+	}*/
 	if (n == 0)
 		*s-- = '0';
 	while (n > 0)
@@ -38,8 +40,8 @@ static inline char	*load_str(char *s, unsigned long long n, unsigned int base)
 		*s-- = radix[n % base];
 		n /= base;
 	}
-	if (sign)
-		*s-- = '-';
+	//if (sign)
+	//	*s-- = '-';
 	return (++s);
 }
 
@@ -49,6 +51,8 @@ char	*ft_itoa_base(unsigned long long num, unsigned int base)
 	char	*s;
 	char	*dest;
 
+//	if (!base || !num) //TODO: allow this to work for NULL input
+//		return (NULL);
 	ft_memset(&c, '\0', DIGITS);
 	s = load_str(c + (DIGITS - 2), num, base);
 	dest = malloc(sizeof(char) * (ft_strlen(s) + 1));

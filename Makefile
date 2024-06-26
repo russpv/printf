@@ -19,7 +19,24 @@ SOURCES = ft_printf.c \
 			ft_toupper.c \
 			ft_strncmp.c 
 
-BSOURCES =	ft_printf_bonus.c\
+BSOURCES =	ft_printf.c \
+			formats.c \
+		  flags.c \
+			flags2.c \
+		  utils.c \
+			ft_strlen.c \
+			ft_putstr.c \
+			ft_putchar.c \
+			ft_putnbr.c \
+			ft_itoa.c \
+			ft_itoa_base.c \
+			ft_substr.c \
+			ft_strjoin.c \
+			ft_isdigit.c \
+			ft_memcpy.c \
+			ft_memset.c \
+			ft_toupper.c \
+			ft_strncmp.c 
 
 
 YELLOW = \033[33m

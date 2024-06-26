@@ -15,23 +15,27 @@ int	is_flag(const char *s)
 	return (FALSE);
 }
 
+/* init all but lengths */
 void	init_specs(t_spec *specs)
 {
-	specs->minwidth = 0;
-	specs->minprec = 0;
+	specs->initflg = TRUE;
 	specs->ljstflg = FALSE;
+	specs->signflg = FALSE;
 	specs->leadflg = FALSE;
 	specs->mpflg = FALSE;
-	specs->signflg = FALSE;
-	specs->sch = "";
+	specs->mwflg = FALSE;
 	specs->altflg = FALSE;
-	specs->lch = "";
-	specs->pch = ' ';
+	specs->minwidth = 0;
+	specs->minprec = 0;
 	specs->base = 10;
+	specs->type = '0';
+	specs->lch = "";
+	specs->sch = "";
+	specs->pch = ' ';
 }
 
 /* Prints heap string to screen */
-void	print_output(void *res)
+void	print_output(void *res, t_spec *s)
 {
 	if (!res)
 		ft_putstr("(null)");
@@ -40,6 +44,7 @@ void	print_output(void *res)
 		ft_putstr(res);
 		free(res);
 	}
+	s->initflg = FALSE;
 }
 
 char	*to_upper(char *s)

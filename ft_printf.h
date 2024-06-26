@@ -24,6 +24,7 @@ typedef enum e_types
 
 typedef struct s_spec
 {
+	int					initflg;
 	int					ljstflg;
 	int					signflg;
 	int					leadflg;
@@ -31,13 +32,13 @@ typedef struct s_spec
 	int					mwflg;
 	int					altflg;
 	unsigned int		base;
-	char				*sch;
 	char				pch;
 	char				*lch;
+	char				*sch;
 	char				type;
+	size_t				len;
 	size_t				minwidth;
 	size_t				minprec;
-	size_t				len;
 	size_t				padlen;
 }						t_spec;
 typedef enum e_bool
@@ -94,11 +95,11 @@ char					*apply_minprecision_char(char *r, t_spec *s);
 /* Utils */
 int						is_flag(const char *s);
 void					init_specs(t_spec *specs);
-void					print_output(void *res);
+void					print_output(void *res, t_spec *s);
 char					*to_upper(char *s);
 
 /* Format handlers */
-void					do_idu_formats(const char *s, va_list args,
+void					do_idu_formats(const char *s, va_list *args,
 							t_spec *specs);
 void					do_cs_formats(const char *s, va_list args,
 							t_spec *specs);

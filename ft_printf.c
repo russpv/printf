@@ -42,6 +42,7 @@ static int	_parse_qty(const char **s, size_t *var, int check, int *flag)
 /* Reads any permutation of flags and quantities */
 static inline int	_parse_specs(const char **s, t_spec *specs)
 {
+	init_specs(specs);
 	while (is_flag(*s))
 	{
 		if (**s == '-')
@@ -68,11 +69,13 @@ static inline int	_parse_specs(const char **s, t_spec *specs)
 	return (TRUE);
 }
 
-static inline void	_do_formats(const char **s, va_list args, t_spec *specs)
+static inline void	_do_formats(const char **s, va_list *args, t_spec *specs)
 {
+	if (specs->initflg != TRUE)
+		init_specs(specs);
 	do_idu_formats(*s, args, specs);
-	do_cs_formats(*s, args, specs);
-	do_xx_formats(*s, args, specs);
+	do_cs_formats(*s, *args, specs);
+	do_xx_formats(*s, *args, specs);
 	do_pc(*s);
 	(*s)++;
 }
@@ -91,7 +94,6 @@ int	ft_printf(const char *s, ...)
 		else
 		{
 			start = ++s;
-			init_specs(&specs);
 			if (is_flag(s) == TRUE || ft_isdigit(*s) || *s == '.')
 			{
 				if (_parse_specs(&s, &specs) == FALSE)
@@ -100,7 +102,7 @@ int	ft_printf(const char *s, ...)
 					continue ;
 				}
 			}
-			_do_formats(&s, args, &specs); // must be on the specifier
+			_do_formats(&s, &args, &specs);
 		}
 	}
 	va_end(args);

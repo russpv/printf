@@ -48,7 +48,7 @@ char	*append_char(const char *ch, const char *r)
 
 /* Applies minimum precision to numerics
  * Truncates 0 to (blank) (except pointers' "(nil)")
- * Adds prepadding with '0'
+ * Else adds prepadding with '0'
  * Returns heap string
  * r: must be heap string (0x..., )
  */
@@ -56,13 +56,15 @@ char	*apply_minprecision_num(char *r, t_spec *s)
 {
 	char	*res2;
 	char	*tmp;
-
+	
+	if (!r)
+		r = ft_strjoin("","");
 	if (s->minprec == 0 && (ft_strncmp(r, "0", 2) == 0))
 	{
 		free (r);
 		r = ft_strjoin("", "");
 	}
-	if (ft_strlen(r) < s->minprec) // '0' padding TODO: empty string with padding?
+	if (ft_strlen(r) < s->minprec)
 	{
 		tmp = repeat(s->minprec - ft_strlen(r), '0');
 		res2 = safe_join(tmp, r);
@@ -92,6 +94,7 @@ char	*apply_minprecision_char(char *r, t_spec *s)
 /* Applies minimum width pre or post padding 
 ** Returns heap string
 ** r: must be heap string
+** padding on empty string is valid
 */
 char	*apply_minwidth(char *r, t_spec *s)
 {

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "ft_printf.h"
+#include <limits.h>
 
 int main(){
 	char *s = "mystring";
@@ -29,30 +30,33 @@ int main(){
 	printf("\nNULL:_%7.3s_%7.3s_", NULL, NULL);
 	printf("%s", NULL); printf("$"); printf("%2.5s", NULL); printf("$");
 	printf("\n");
-	printf("%23s", NULL);
-	printf("\n_%7i_\n", -14);
+	printf("%23s", NULL);ft_printf("%d", INT_MIN);
 	printf("_%-7i_\n", -14);
 	printf("_%8.5i_", 34); printf("\n");
 	printf("%07i\n", -54);
 	printf("_%5.0i_", 0);
 
 	printf("\n====MYCODE====\n\n");
-	printf("\n====CHARS=====\n\n");
-	printf("pf_%-5c_", 0); printf("\n");fflush(stdout);
-	ft_printf("ft_%-5c_", 0); printf("\n\n"); fflush(stdout);
 
+	printf("\n====CHARS=====\n\n");
 	printf("pf_%.c_\n", 'a'); fflush(stdout);
 	ft_printf("ft_%.c_\n\n", 'a');
 
 	printf("_"); printf("%-5c", '\0'); printf("_\n"); fflush(stdout);
 	ft_printf("_"); ft_printf("%-5c", '\0'); ft_printf("_\n\n");
 
+	printf("pf_%-5c_", 0); printf("\n");fflush(stdout);
+	ft_printf("ft_%-5c_", 0); printf("\n\n"); fflush(stdout);
+	
 	printf("pf"); printf("{%3c}", 0); printf("_\n"); fflush(stdout);
-	ft_printf("ft_"); ft_printf("{%3c}", 0); ft_printf("_\n\n");
+	ft_printf("ft"); ft_printf("{%3c}", 0); ft_printf("_\n\n");
 
 	printf("%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c//%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c", ' ','!','"','#','$', '%','&','\'','(',')','*','+',',','-','.','/','0','1','2','3','4','5','6','7','8','9',':', ';','<','=','>','?','@','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q', 'R','S','T','U', 'V','W','X','Y','Z','[','\\',']','^','_','`','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p', 'q','r','s','t','u','v','w','x','y','z','{','|','~'); fflush(stdout);
 	printf("\n\n");
 	ft_printf("%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c//%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c%3c%4c%1c%2c", ' ','!','"','#','$', '%','&','\'','(',')','*','+',',','-','.','/','0','1','2','3','4','5','6','7','8','9',':', ';','<','=','>','?','@','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q', 'R','S','T','U', 'V','W','X','Y','Z','[','\\',']','^','_','`','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p', 'q','r','s','t','u','v','w','x','y','z','{','|','~'); fflush(stdout);
+
+printf("\n %c %c %c \n", '0', 0, '1'); fflush(stdout);
+ft_printf(" %c %c %c ", '0', 0, '1');
 
 	printf("\n====POINTRS===\n\n");
 	printf("pf_%5.1p\n", &a01); fflush(stdout);
@@ -85,8 +89,10 @@ int main(){
 	
 	printf("_%8.3i\n", 8375); fflush(stdout);
 	ft_printf("_%8.3i\n\n", 8375);
-	
-	ft_printf("_%5.0i_\n\n", 0); fflush(stdout);
+
+	printf("zero with width and precision\n"); fflush(stdout);
+	printf("_%5.0i_\n", 0); fflush(stdout);
+	ft_printf("_%5.0i_\n\n", 0); 
 	
 	ft_printf("%07i\n\n", -54);
 	
@@ -98,10 +104,12 @@ int main(){
 	printf("%.3u", 13862); printf(" ");fflush(stdout);
 	ft_printf("%.3u", 13862);
 
-printf("\npfthis %i number\n", -267); fflush(stdout);
-ft_printf("ftthis %i number\n", -267);
+	printf("\npfthis %i number\n", -267); fflush(stdout);
+	ft_printf("ftthis %i number\n", -267);
 
-	
+	printf("pf%d\n", INT_MIN); fflush(stdout);
+	ft_printf("ft%d", INT_MIN);
+
 	printf("\n====STRINGS===\n\n");
 	printf("pf%-s_", "hello"); printf("\n");
 	ft_printf("ft%s_", "hello");
@@ -111,14 +119,27 @@ ft_printf("ftthis %i number\n", -267);
 	ft_printf("\nNULL:_%7.3s_%7.3s", NULL, NULL);
 	ft_printf ("\n%.s%.2s$\n", "holla", NULL);	
 	ft_printf ("%7.3s%7.3s", "hello", "world");
+	
+	// Empty string w minwidth
+	printf("\npf%5s_\n", ""); fflush(stdout);
+	ft_printf("ft%5s_\n", "");
+
+	// Empty string w precision]
+	printf("\npf%.5s_\n", ""); fflush(stdout);
+	ft_printf("ft%.5s_\n", "");
 
 	printf("\n====MULTI=====\n\n");
 	printf("pf_%-153p_%0110.8x%110p" ,(void*)17240180584784891087lu,2705171059u,(void*)1312307382483808423lu); fflush(stdout);
 	ft_printf("\nft_%-153p_%0110.8x%110p" ,(void*)17240180584784891087lu,2705171059u,(void*)1312307382483808423lu); 
 
-	printf("\npf %lld %llu", (long long)17240180584784891087lu, 17240180584784891087lu); fflush(stdout);
+	printf("\nThis is punking and should never work:\n"); fflush(stdout);
+	printf("\npf %lld %lu", (long long)17240180584784891087lu, 17240180584784891087lu); fflush(stdout);
 	ft_printf("\nft %d %u \n", (long long)17240180584784891087lu, 17240180584784891087lu);
 	
+printf("s: %s, p: %p, d:%d", "a string", &a06, 42); printf("\n"); fflush(stdout);
+ft_printf("s: %s, p: %p, d:%d", "a string", &a06, 42); ft_printf("%d", 42);
+ft_printf("\n\n");
+
 	ft_printf ("Integers:_%- +010.6d$_% + +10.8u$ \n", 255, 1234);
 	ft_printf ("Padding check: %50..i_% u_%+ p \n", 3456, 3456, p);
 	ft_printf ("Characters: %c %c \n", 'z', 80);
