@@ -1,2 +1,5 @@
 *.txt
 *.swp
+draft.c
+*.old
+test.c
