@@ -69,6 +69,13 @@ ft_printf(" %c %c %c ", '0', 0, '1');
 	printf("\n%-32p%-32p%-32p%-32p%-32p%-32p%-32p%-32p%-32p%-32p%-32p%-32p",&a01,&a02,&a03,&a04,&a05,&a06,&a07,&a08,&a09,&a10,&a11,&a12); fflush(stdout);
 	ft_printf("\n%-32p%-32p%-32p%-32p%-32p%-32p%-32p%-32p%-32p%-32p%-32p%-32p",&a01,&a02,&a03,&a04,&a05,&a06,&a07,&a08,&a09,&a10,&a11,&a12); fflush(stdout);
 
+printf("\n%-8p%-8p%-8p%-8p%-8p%-8p%-8p%-8p%-8p%-8p%-8p%-8p",&a01,&a02,&a03,&a04,&a05,&a06,&a07,&a08,&a09,&a10,&a11,&a12); fflush(stdout);
+ft_printf("\n%-8p%-8p%-8p%-8p%-8p%-8p%-8p%-8p%-8p%-8p%-8p%-8p",&a01,&a02,&a03,&a04,&a05,&a06,&a07,&a08,&a09,&a10,&a11,&a12);
+
+ft_printf("\n%-p", &a01); fflush(stdout);
+printf("\n%-p", &a01);
+
+
 	printf("\n====HEXNUMS===\n\n");
 
 	printf("%-x\n", 42); fflush(stdout);

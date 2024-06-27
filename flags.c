@@ -82,7 +82,8 @@ static inline char	*_apply_0x_nil(char *r)
 }
 
 /* Sets negative sign char and flag for printing INT
-** 'Long long' container would be excessive; va_arg() permits int reception only
+** 'Long long' container would be excessive; 
+** va_arg() expects int only
 */
 static void	_handle_neg(unsigned long long *value, void *val, t_spec *s)
 {
@@ -107,7 +108,7 @@ static void	_handle_neg(unsigned long long *value, void *val, t_spec *s)
 /* Switchboard for handling flags by arg specifier
 ** Returns heap string
 ** HEX, PTR, UINT are positive-only
-**
+** va_arg() expects unsigned long
 */
 char	*type_switch(void *val, t_types typ, t_spec *specs)
 {
@@ -122,7 +123,7 @@ char	*type_switch(void *val, t_types typ, t_spec *specs)
 	if (typ == INT)
 		_handle_neg(&value, val, specs);
 	if (typ == HEX || typ == PTR || typ == UINT)
-		value = *(unsigned int *)val;
+		value = *(unsigned long *)val;
 	if (typ == HEX || typ == INT || typ == PTR || typ == UINT)
 		res = ft_itoa_base(value, specs->base);
 	if (typ == PTR)

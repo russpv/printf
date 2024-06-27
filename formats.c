@@ -86,7 +86,7 @@ void	do_xx_formats(const char *s, va_list args, t_spec *specs)
 	else if (*s == 'X')
 		res = to_upper(res);
 	if (specs->altflg == TRUE)
-		res = safe_join(ft_strjoin("0x",""), res);
+		res = safe_join(ft_strjoin("0x", ""), res);
 	print_output(res, specs);
 }
 
